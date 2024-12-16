@@ -10,7 +10,7 @@ interface CourseCardProps {
 
 export const CourseCard = ({ id, title, instructor, thumbnail, platform }: CourseCardProps) => {
   return (
-    <Link to={`/class/${id}`} className="course-card block w-[300px] bg-card">
+    <Link to={`/class/${id}`} className="course-card block w-full sm:w-[300px] bg-card">
       <div className="relative">
         <img src={thumbnail} alt={title} className="course-card-image" />
         <div className="absolute top-2 right-2 bg-black/50 px-2 py-1 text-xs rounded">

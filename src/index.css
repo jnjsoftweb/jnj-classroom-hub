@@ -58,5 +58,5 @@
 }
 
 .scrollable-cards {
-  @apply flex space-x-4 overflow-x-auto pb-4;
+  @apply flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0 sm:overflow-x-auto pb-4;
 }

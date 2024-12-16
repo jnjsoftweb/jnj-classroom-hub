@@ -2,6 +2,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { CourseCard } from "./CourseCard";
 import { Button } from "./ui/button";
 import { useRef } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Course {
   id: string;
@@ -18,10 +19,11 @@ interface PlatformSectionProps {
 
 export const PlatformSection = ({ platform, courses }: PlatformSectionProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
-      const scrollAmount = 300;
+      const scrollAmount = isMobile ? scrollRef.current.clientWidth : 300;
       scrollRef.current.scrollBy({
         left: direction === "left" ? -scrollAmount : scrollAmount,
         behavior: "smooth",
