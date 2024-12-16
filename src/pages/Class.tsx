@@ -1,6 +1,8 @@
 import { Navigation } from "@/components/Navigation";
 import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { PlayCircle, Clock } from "lucide-react";
 
 const Class = () => {
   const { id } = useParams();
@@ -10,59 +12,118 @@ const Class = () => {
     id: "1",
     title: "Complete Web Development Bootcamp",
     instructor: "John Doe",
-    thumbnail: "https://source.unsplash.com/random/1920x1080?coding",
+    thumbnail: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=1920&q=80",
     platform: "Youtube",
-    description: "Learn web development from scratch with this comprehensive course.",
+    description: "Learn web development from scratch with this comprehensive course. Master HTML, CSS, JavaScript, React, and more with hands-on projects and real-world examples.",
+    level: "초급자",
+    totalDuration: "32시간",
+    totalLectures: "280개의 강의",
     curriculum: [
       {
-        title: "Introduction to Web Development",
-        duration: "45:00",
+        title: "섹션 1: 웹 개발 소개",
+        lectures: [
+          { title: "웹 개발이란 무엇인가?", duration: "15:00" },
+          { title: "개발 환경 설정하기", duration: "25:00" },
+          { title: "VS Code 설치 및 설정", duration: "20:00" }
+        ]
       },
       {
-        title: "HTML Fundamentals",
-        duration: "1:30:00",
+        title: "섹션 2: HTML 기초",
+        lectures: [
+          { title: "HTML 구조 이해하기", duration: "30:00" },
+          { title: "태그와 속성 다루기", duration: "45:00" },
+          { title: "시맨틱 마크업 작성하기", duration: "35:00" }
+        ]
       },
-      // Add more sections...
+      {
+        title: "섹션 3: CSS 스타일링",
+        lectures: [
+          { title: "CSS 선택자 마스터하기", duration: "40:00" },
+          { title: "Flexbox 레이아웃", duration: "50:00" },
+          { title: "반응형 디자인 구현", duration: "45:00" }
+        ]
+      }
     ],
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Navigation />
       <main className="max-w-screen-xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Content */}
           <div className="lg:col-span-2">
-            <img
-              src={mockClass.thumbnail}
-              alt={mockClass.title}
-              className="w-full aspect-video rounded-lg object-cover"
-            />
-            <h1 className="text-3xl font-bold mt-6">{mockClass.title}</h1>
-            <p className="text-muted-foreground mt-2">{mockClass.instructor}</p>
+            <div className="aspect-video w-full rounded-lg overflow-hidden">
+              <img
+                src={mockClass.thumbnail}
+                alt={mockClass.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            
             <div className="mt-8">
-              <h2 className="text-2xl font-semibold mb-4">About this course</h2>
-              <p className="text-muted-foreground">{mockClass.description}</p>
+              <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+                <span>{mockClass.level}</span>
+                <span>•</span>
+                <span>{mockClass.totalDuration}</span>
+                <span>•</span>
+                <span>{mockClass.totalLectures}</span>
+              </div>
+              <h1 className="text-3xl font-bold">{mockClass.title}</h1>
+              <p className="text-muted-foreground mt-2">{mockClass.instructor}</p>
+            </div>
+
+            <div className="mt-8">
+              <h2 className="text-2xl font-semibold mb-4">강의 소개</h2>
+              <p className="text-muted-foreground whitespace-pre-line">
+                {mockClass.description}
+              </p>
             </div>
           </div>
+
+          {/* Right Sidebar */}
           <div className="lg:col-span-1">
-            <div className="sticky top-24 bg-card rounded-lg p-6">
-              <h2 className="text-xl font-semibold mb-4">Curriculum</h2>
-              <div className="space-y-4">
-                {mockClass.curriculum.map((section, index) => (
-                  <div
-                    key={index}
-                    className="flex justify-between items-center p-4 bg-muted rounded-lg"
-                  >
-                    <div>
-                      <p className="font-medium">{section.title}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {section.duration}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+            <div className="sticky top-24 bg-card rounded-lg border">
+              <div className="p-6">
+                <h2 className="text-xl font-semibold mb-4">커리큘럼</h2>
+                <div className="text-sm text-muted-foreground mb-6">
+                  총 {mockClass.totalLectures} · {mockClass.totalDuration}
+                </div>
+                <Accordion type="single" collapsible className="w-full">
+                  {mockClass.curriculum.map((section, index) => (
+                    <AccordionItem key={index} value={`section-${index}`}>
+                      <AccordionTrigger className="hover:no-underline">
+                        <div className="text-left">
+                          <div className="font-medium">{section.title}</div>
+                          <div className="text-sm text-muted-foreground mt-1">
+                            {section.lectures.length}개 강의
+                          </div>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="space-y-2">
+                          {section.lectures.map((lecture, lectureIndex) => (
+                            <div
+                              key={lectureIndex}
+                              className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 cursor-pointer"
+                            >
+                              <PlayCircle className="w-4 h-4 text-muted-foreground" />
+                              <div className="flex-1">
+                                <div className="text-sm">{lecture.title}</div>
+                              </div>
+                              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                <Clock className="w-4 h-4" />
+                                {lecture.duration}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+                <Button className="w-full mt-6">수강 시작하기</Button>
               </div>
-              <Button className="w-full mt-6">Start Learning</Button>
             </div>
           </div>
         </div>
