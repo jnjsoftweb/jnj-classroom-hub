@@ -3,20 +3,31 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
 
 const AuthPage = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   useEffect(() => {
-    // 이미 로그인한 사용자는 메인 페이지로 리다이렉트
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session) {
+      if (event === 'SIGNED_IN' && session) {
         navigate("/");
+      }
+      if (event === 'USER_DELETED' || event === 'SIGNED_OUT') {
+        navigate("/auth");
+      }
+      // Handle auth errors
+      if (event === 'PASSWORD_RECOVERY' || event === 'USER_UPDATED') {
+        toast({
+          title: "인증 상태가 변경되었습니다",
+          description: "다시 로그인해주세요.",
+        });
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate, toast]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -24,9 +35,23 @@ const AuthPage = () => {
         <h2 className="text-center text-3xl font-bold mb-8">JNJ Classroom</h2>
         <Auth
           supabaseClient={supabase}
-          appearance={{ theme: ThemeSupa }}
+          appearance={{ 
+            theme: ThemeSupa,
+            style: {
+              button: { background: 'rgb(59 130 246)', color: 'white' },
+              anchor: { color: 'rgb(59 130 246)' },
+            },
+          }}
           theme="light"
           providers={[]}
+          redirectTo={window.location.origin}
+          onError={(error) => {
+            toast({
+              variant: "destructive",
+              title: "인증 오류",
+              description: error.message,
+            });
+          }}
         />
       </div>
     </div>
