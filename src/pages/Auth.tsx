@@ -39,7 +39,7 @@ const AuthPage = () => {
             style: {
               button: { background: 'rgb(59 130 246)', color: 'white' },
               anchor: { color: 'rgb(59 130 246)' },
-              message: { color: 'red' }
+              message: { color: 'red', marginBottom: '10px' }
             },
           }}
           theme="light"
