@@ -14,14 +14,13 @@ const AuthPage = () => {
       if (event === 'SIGNED_IN' && session) {
         navigate("/");
       }
-      if (event === 'USER_DELETED' || event === 'SIGNED_OUT') {
+      if (event === 'SIGNED_OUT') {
         navigate("/auth");
       }
-      // Handle auth errors
-      if (event === 'PASSWORD_RECOVERY' || event === 'USER_UPDATED') {
+      if (event === 'PASSWORD_RECOVERY') {
         toast({
-          title: "인증 상태가 변경되었습니다",
-          description: "다시 로그인해주세요.",
+          title: "비밀번호 복구",
+          description: "이메일을 확인해주세요.",
         });
       }
     });
@@ -45,12 +44,27 @@ const AuthPage = () => {
           theme="light"
           providers={[]}
           redirectTo={window.location.origin}
-          onError={(error) => {
-            toast({
-              variant: "destructive",
-              title: "인증 오류",
-              description: error.message,
-            });
+          localization={{
+            variables: {
+              sign_in: {
+                email_label: '이메일',
+                password_label: '비밀번호',
+                button_label: '로그인',
+                loading_button_label: '로그인 중...',
+                email_input_placeholder: '이메일을 입력하세요',
+                password_input_placeholder: '비밀번호를 입력하세요',
+                link_text: '계정이 이미 있으신가요? 로그인하기'
+              },
+              sign_up: {
+                email_label: '이메일',
+                password_label: '비밀번호',
+                button_label: '회원가입',
+                loading_button_label: '회원가입 중...',
+                email_input_placeholder: '이메일을 입력하세요',
+                password_input_placeholder: '비밀번호를 입력하세요',
+                link_text: '계정이 없으신가요? 회원가입하기'
+              }
+            }
           }}
         />
       </div>
