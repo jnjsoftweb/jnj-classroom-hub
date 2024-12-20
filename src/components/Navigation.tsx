@@ -1,43 +1,37 @@
-import { Link, useLocation } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
 
-const platforms = [
-  "Youtube",
-  "Class101",
-  "Udemy",
-  "Inflearn",
-  "FastCampus",
-  "NomadCoder",
-  "기타",
-];
+export function Navigation() {
+  const navigate = useNavigate();
 
-export const Navigation = () => {
-  const location = useLocation();
-  const currentPlatform = location.pathname.split("/")[2];
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/auth");
+  };
 
   return (
-    <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
-      <div className="max-w-screen-xl mx-auto">
-        <div className="flex items-center h-16 px-4">
-          <Link to="/" className="text-xl font-bold mr-8">
-            JNJ-CLASS
-          </Link>
-          <div className="flex space-x-4 overflow-x-auto">
-            {platforms.map((platform) => (
-              <Link
-                key={platform}
-                to={`/category/${platform.toLowerCase()}`}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  currentPlatform === platform.toLowerCase()
-                    ? "bg-primary text-primary-foreground"
-                    : "hover:bg-muted"
-                }`}
-              >
-                {platform}
-              </Link>
-            ))}
-          </div>
+    <header className="border-b">
+      <div className="flex h-16 items-center px-4 max-w-screen-xl mx-auto">
+        <div className="flex items-center flex-1">
+          <nav className="flex items-center space-x-6 text-sm font-medium">
+            <Button variant="link" onClick={() => navigate("/")}>
+              홈
+            </Button>
+            <Button variant="link" onClick={() => navigate("/category/youtube")}>
+              YouTube
+            </Button>
+            <Button variant="link" onClick={() => navigate("/category/class101")}>
+              Class101
+            </Button>
+          </nav>
+        </div>
+        <div className="flex items-center">
+          <Button variant="outline" onClick={handleLogout}>
+            로그아웃
+          </Button>
         </div>
       </div>
-    </nav>
+    </header>
   );
-};
+}
