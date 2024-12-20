@@ -54,9 +54,7 @@ const AuthPage = () => {
                 loading_button_label: '로그인 중...',
                 email_input_placeholder: '이메일을 입력하세요',
                 password_input_placeholder: '비밀번호를 입력하세요',
-                link_text: '계정이 이미 있으신가요? 로그인하기',
-                password_error: '비밀번호가 올바르지 않습니다',
-                email_error: '이메일이 올바르지 않습니다'
+                link_text: '계정이 이미 있으신가요? 로그인하기'
               },
               sign_up: {
                 email_label: '이메일',
@@ -65,9 +63,7 @@ const AuthPage = () => {
                 loading_button_label: '회원가입 중...',
                 email_input_placeholder: '이메일을 입력하세요',
                 password_input_placeholder: '비밀번호를 입력하세요',
-                link_text: '계정이 없으신가요? 회원가입하기',
-                password_error: '비밀번호가 올바르지 않습니다',
-                email_error: '이메일이 올바르지 않습니다'
+                link_text: '계정이 없으신가요? 회원가입하기'
               }
             }
           }}
